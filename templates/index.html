@@ -25,11 +25,16 @@
             margin: 0;
             overflow: hidden;
             position: relative;
+            transition: background 0.5s ease;
+        }
+
+        body.show-results {
+            background: none; /* Eliminar el fondo cuando se muestren los resultados */
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 1500px;
             margin: 20px;
             background-color: #ffffff;
             padding: 30px;
@@ -105,14 +110,17 @@
 
         .image-container {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 25px;
             margin-top: 25px;
+            justify-content: center;
         }
 
         .image-card {
             text-align: center;
             margin-bottom: 20px;
+            flex-basis: 100%;
+            max-width: 400px;
         }
 
         img {
@@ -200,10 +208,31 @@
             animation-duration: 2s;
             animation-delay: 0.3s;
         }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .image-card {
+                flex-basis: 100%;
+            }
+
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            button, input[type="file"] {
+                width: 100%;
+                max-width: none;
+            }
+        }
     </style>
 </head>
 
-<body>
+<body class="{% if show_results %}show-results{% endif %}">
     <!-- Estrellas en el fondo -->
     <div class="star" style="top: 10%; left: 10%"></div>
     <div class="star" style="top: 20%; left: 30%"></div>
@@ -219,7 +248,7 @@
         <h1>Detección de Tumores Cerebrales</h1>
 
         <!-- Formulario para cargar la imagen -->
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="image-form">
             <input type="file" name="file" accept=".png,.jpg,.jpeg,.dcm" required>
             <button type="submit">Analizar Imagen</button>
         </form>
@@ -237,7 +266,7 @@
                 {% endif %}
             </div>
 
-            <!-- Imágenes en vertical -->
+            <!-- Imágenes en horizontal -->
             <div class="image-container">
                 <div class="image-card">
                     <h3>Imagen Original</h3>
@@ -257,6 +286,7 @@
         </div>
         {% endif %}
     </div>
+
 </body>
 
 </html>

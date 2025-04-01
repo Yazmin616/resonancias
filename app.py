@@ -48,14 +48,15 @@ def upload_file():
                 base_name
             )
             
-            # ✅ Aquí solo enviamos el nombre del archivo
+            # ✅ Enviar las imágenes procesadas y los resultados a la plantilla
             return render_template('index.html',
-                                   original_image=filename,
-                                   result_images=result_images,
-                                   has_tumor=result['has_tumor'],
-                                   confidence=f"{result['confidence']:.2f}%")
+            original_image=filename,
+            result_images=result_images,
+            has_tumor=result['has_tumor'],
+            confidence=f"{result['confidence']:.2f}%",
+            show_results=True)  # Mostrar los resultados y quitar fondo de estrellas
     
-    return render_template('index.html')
+    return render_template('index.html', show_results=False)  # Si no hay resultados, fondo con estrellas
 
 if __name__ == '__main__':
     app.run(debug=True)
